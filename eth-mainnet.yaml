@@ -1,0 +1,11 @@
+start:
+  args:
+  - mindreader-node
+  flags:
+    verbose: 3
+    data-dir: eth-data
+    log-to-file: false
+    common-network-id: "1"
+    mindreader-node-path: ./eth-geth
+    mindreader-node-merge-and-store-directly: true
+    firehose-realtime-tolerance: 99999999999999s

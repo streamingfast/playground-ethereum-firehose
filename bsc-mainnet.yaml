@@ -1,0 +1,11 @@
+start:
+  args:
+  - mindreader-node
+  flags:
+    verbose: 3
+    data-dir: bsc-data
+    log-to-file: false
+    common-network-id: "56"
+    mindreader-node-path: ./bsc-geth
+    mindreader-node-merge-and-store-directly: true
+    firehose-realtime-tolerance: 99999999999999s
