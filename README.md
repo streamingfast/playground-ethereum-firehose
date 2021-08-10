@@ -23,6 +23,7 @@ Download the binaries here: https://github.com/streamingfast/playground-ethereum
 Run this:
 
 ```bash
+./bsc-geth --datadir bsc-data/mindreader/data init config/bsc/genesis.json   # Only needed for BSC
 ./sfeth -c bsc-mainnet.yaml start mindreader-node
 ```
 
