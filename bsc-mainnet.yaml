@@ -9,3 +9,4 @@ start:
     mindreader-node-path: ./bsc-geth
     mindreader-node-merge-and-store-directly: true
     firehose-realtime-tolerance: 99999999999999s
+    mindreader-node-bootstrap-data-url: config/bsc/genesis.json
