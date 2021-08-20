@@ -13,7 +13,7 @@ NOTE: This short intro is the simplest deployment, but does not provide all the 
 
 Checkout this repository
 
-Download the binaries here: https://github.com/streamingfast/playground-ethereum-firehose/releases/tag/v0.0.0 and put them at the root of this repo.
+Download the binaries here: https://github.com/streamingfast/playground-ethereum-firehose/releases/tag/v0.0.1 and put them at the root of this repo.
 
 `chmod +x` them
 
@@ -23,15 +23,12 @@ Download the binaries here: https://github.com/streamingfast/playground-ethereum
 Run this:
 
 ```bash
-./bsc-geth --datadir bsc-data/mindreader/data init config/bsc/genesis.json   # Only needed for BSC
 ./sfeth -c bsc-mainnet.yaml start mindreader-node
 ```
 
-This launch the `bsc-geth` process underneath, wrapped with the firehose. It should write a bunch of stuff in `./bsc-data`.
+This launch the `bsc-geth` process underneath. It should write a bunch of stuff in `./bsc-data`.
 
-Running with `sfeth start -c eth-mainnet.yaml` will run `eth-geth` and write stuff to `eth-data`.
-
-*NOTE*: `deep-mind` is the codename for firehose instrumentation, and `mindreader` is the codename for reading the output of deepmind.  We'll have those concepts converge into firehose namings soon.
+Running with `sfeth start -c eth-mainnet.yaml` will run `eth-geth` to sync with Ethereum Mainnet and write stuff to `eth-data`.
 
 The process can be interrupted and restarted.
 
@@ -47,25 +44,27 @@ You will find under `eth-data` or `bsc-data` the `storage/merged-blocks` directo
 once your node has sync'd at least 100000 blocks.
 
 
-## Run the firehose independently:
+## Run the Firehose independently:
 
 ```bash
-./sfeth -c bsc-mainnet.yaml start firehose
+./sfeth -c bsc-mainnet.yaml start relayer firehose
 ```
 
-
-## Connect to your firehose
+## Connect to your Firehose
 
 Once the `firehose` is running and is listening on its port, continue on.
 
 With `grpcurl`, by [installing grpcurl](https://github.com/fullstorydev/grpcurl), a simple `curl`-like program to communicate via gRPC, then connect to the stream with:
 
 ```
-grpcurl -H "Authorization: Bearer NONE" \
-       -d '{"start_block_num": 1, "stop_block_num": -1, "decoded": true, "handleForks": true, "handleForksSteps": ["STEP_NEW"], "include_filter_expr": ""}' \
-       -import-path ./protos -proto bstream.proto -proto codec.proto \
-       localhost:13042 \
-       dfuse.bstream.v1.BlockStreamV2.Blocks
+grpcurl -insecure -import-path protos -proto codec.proto -proto bstream.proto -d '{"start_block_num": 10}' localhost:13042 dfuse.bstream.v1.BlockStreamV2.Blocks
 ```
 
-> Another option would be to use the SF Client https://github.com/streamingfast/streamingfast-client, but it still relies on our old API tokens. [TODO: fix this to support localhost]
+> Another option would be to use the SF Client https://github.com/streamingfast/streamingfast-client.
+
+```
+git clone https://github.com/streamingfast/streamingfast-client.git
+cd streamingfast-client
+
+go run ./cmd/sf -s -e localhost:13042 "*" 10 20
+```

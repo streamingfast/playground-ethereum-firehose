@@ -5,8 +5,13 @@ start:
     verbose: 3
     data-dir: bsc-data
     log-to-file: false
+    common-chain-id: "56"
     common-network-id: "56"
     mindreader-node-path: ./bsc-geth
-    mindreader-node-merge-and-store-directly: true
-    firehose-realtime-tolerance: 99999999999999s
     mindreader-node-bootstrap-data-url: config/bsc/genesis.json
+    mindreader-node-merge-and-store-directly: true
+
+    # Once fully live with chain, those should be removed, they are used so that Firehose serves
+    # blocks even if the chain is not live yet.
+    firehose-realtime-tolerance: 999999999s
+    relayer-max-source-latency: 999999999s

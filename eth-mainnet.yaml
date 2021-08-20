@@ -2,10 +2,18 @@ start:
   args:
   - mindreader-node
   flags:
-    verbose: 3
+    verbose: 2
     data-dir: eth-data
     log-to-file: false
+    common-chain-id: "1"
     common-network-id: "1"
     mindreader-node-path: ./eth-geth
+    # You can tweaks command line arguments like syncing with Ropsten, like in the
+    # example below (don't forget to update `data-dir`, `common-chain-id` and `common-chain-id`)
+    # mindreader-node-arguments: "+--ropsten"
     mindreader-node-merge-and-store-directly: true
-    firehose-realtime-tolerance: 99999999999999s
+
+    # Once fully live with chain, those should be removed, they are used so that Firehose serves
+    # blocks even if the chain is not live yet.
+    firehose-realtime-tolerance: 999999999s
+    relayer-max-source-latency: 999999999s
